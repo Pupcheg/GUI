@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+def targetJavaVersion = 17
+
+group = 'me.supcheg'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url 'https://repo.dmulloy2.net/repository/public/' }
+}
+
+dependencies {
+    //noinspection VulnerableLibrariesLocal
+    implementation 'io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    implementation('com.comphenix.protocol:ProtocolLib:5.0.0') {
+        exclude group: 'org.spigotmc:spigot'
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(targetJavaVersion)
+    targetCompatibility = JavaVersion.toVersion(targetJavaVersion)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release.set(targetJavaVersion)
+}
+
+compileJava {
+    sourceCompatibility = targetJavaVersion
+    targetCompatibility = targetJavaVersion
+    options.encoding = 'UTF-8'
+}
